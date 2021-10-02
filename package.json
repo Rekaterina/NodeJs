@@ -1,0 +1,24 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "NodeJs Global Mentoring",
+  "main": "index.js",
+  "scripts": {
+    "task1": "nodemon src/task1/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rekaterina/NodeJs.git"
+  },
+  "author": "Ekaterina Rudenko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rekaterina/NodeJs/issues"
+  },
+  "homepage": "https://github.com/Rekaterina/NodeJs#readme",
+  "devDependencies": {
+    "@types/node": "^16.10.2",
+    "nodemon": "^2.0.13",
+    "prettier": "^2.4.1"
+  }
+}
