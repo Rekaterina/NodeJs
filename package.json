@@ -4,8 +4,8 @@
   "description": "NodeJs Global Mentoring",
   "main": "index.js",
   "scripts": {
-    "task1": "nodemon src/task1/index.js",
-    "task2": "nodemon src/task2/index.js"
+    "task1": "nodemon --exec babel-node src/task1/index.js",
+    "task2": "nodemon --exec babel-node src/task2/index.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/Rekaterina/NodeJs#readme",
   "devDependencies": {
+    "@babel/core": "^7.15.5",
+    "@babel/node": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
     "@types/node": "^16.10.2",
     "nodemon": "^2.0.13",
     "prettier": "^2.4.1"

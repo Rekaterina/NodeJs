@@ -1,6 +1,6 @@
-const csv = require('csvtojson');
-const { createReadStream, createWriteStream } = require('fs');
-const { pipeline } = require('stream');
+import csv from 'csvtojson';
+import { createReadStream, createWriteStream } from 'fs';
+import { pipeline } from 'stream';
 
 const inputPath = './src/task2/csv/input.csv';
 const outputPath = './src/task2/output.txt';
