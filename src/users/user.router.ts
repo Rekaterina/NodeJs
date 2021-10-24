@@ -2,6 +2,7 @@ import * as express from 'express';
 
 import { STATUS_CODE } from '../constants';
 import * as userService from './user.service';
+import { validateUser } from './user.validator';
 
 export const router = express.Router();
 
@@ -24,7 +25,7 @@ router.get('/:id', (req: express.Request, res: express.Response) => {
     }
 });
 
-router.post('/', (req: express.Request, res: express.Response) => {
+router.post('/', validateUser(), (req: express.Request, res: express.Response) => {
     const createdUser = userService.createUser(req.body);
     if (createdUser) {
         res.status(STATUS_CODE.CREATED).json(createdUser);
@@ -43,7 +44,7 @@ router.delete('/:id', (req: express.Request, res: express.Response) => {
     }
 });
 
-router.patch('/:id', (req: express.Request, res: express.Response) => {
+router.patch('/:id', validateUser(), (req: express.Request, res: express.Response) => {
     const userId = req.params.id;
     const updatedUser = userService.updateUser(userId, req.body);
     if (updatedUser) {
