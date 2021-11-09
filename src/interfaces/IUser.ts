@@ -6,5 +6,4 @@ export interface UserBase {
 
 export interface User extends UserBase {
     id: string;
-    isDeleted: boolean;
 }
