@@ -2,32 +2,33 @@ import { Model, Op } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
 
 import { User, UserBase } from '../interfaces/IUser';
+import { IUserService } from '../interfaces/IUserService';
 import { UserModel } from '../loaders/sequelize';
 import { getRandomUsers } from './helpers';
 
-export class UserService {
-    static createPredefinedUsers(amount: number) {
+export class UserDbService implements IUserService {
+    createPredefinedUsers(amount: number) {
         UserModel.bulkCreate(getRandomUsers(amount));
     }
 
-    static getUser(id: string): Promise<Model<User> | null> {
+    getUser(id: string): Promise<Model<User> | null> {
         return UserModel.findOne({ where: { id }, raw: true });
     }
 
-    static createUser(userToCreate: UserBase): Promise<Model<User>> {
+    createUser(userToCreate: UserBase): Promise<Model<User>> {
         return UserModel.create({
             ...userToCreate,
             id: uuidv4(),
         });
     }
 
-    static deleteUser(id: string): Promise<number> {
+    deleteUser(id: string): Promise<number> {
         return UserModel.destroy({
             where: { id },
         });
     }
 
-    static updateUser(id: string, userFieldsToUpdate: UserBase): Promise<[number, Model<User>[]]> {
+    updateUser(id: string, userFieldsToUpdate: UserBase): Promise<number> {
         return UserModel.update(
             {
                 ...userFieldsToUpdate,
@@ -35,16 +36,10 @@ export class UserService {
             {
                 where: { id },
             },
-        );
+        ).then((result) => result[0]);
     }
 
-    static getAutoSuggestUsers({
-        loginSubstring,
-        limit,
-    }: {
-        loginSubstring: string;
-        limit: number;
-    }): Promise<Model<User>[]> {
+    getAutoSuggestUsers({ loginSubstring, limit }: { loginSubstring: string; limit: number }): Promise<Model<User>[]> {
         return UserModel.findAll({
             where: {
                 login: {
