@@ -11,15 +11,17 @@ export class UserDbService implements IUserService {
         UserModel.bulkCreate(getRandomUsers(amount));
     }
 
-    getUser(id: string): Promise<Model<User> | null> {
-        return UserModel.findOne({ where: { id }, raw: true });
+    async getUser(id: string): Promise<User | null> {
+        const userFromDb = await UserModel.findOne({ where: { id } });
+        return userFromDb != null ? this.transformDbUserToUser(userFromDb) : null;
     }
 
-    createUser(userToCreate: UserBase): Promise<Model<User>> {
-        return UserModel.create({
+    async createUser(userToCreate: UserBase): Promise<User> {
+        const createdUser = await UserModel.create({
             ...userToCreate,
             id: uuidv4(),
         });
+        return this.transformDbUserToUser(createdUser);
     }
 
     deleteUser(id: string): Promise<number> {
@@ -28,19 +30,21 @@ export class UserDbService implements IUserService {
         });
     }
 
-    updateUser(id: string, userFieldsToUpdate: UserBase): Promise<number> {
-        return UserModel.update(
+    async updateUser(id: string, userFieldsToUpdate: UserBase): Promise<number> {
+        const updateUserResult = await UserModel.update(
             {
                 ...userFieldsToUpdate,
             },
             {
                 where: { id },
             },
-        ).then((result) => result[0]);
+        );
+        const [updatedUserCount] = updateUserResult;
+        return updatedUserCount;
     }
 
-    getAutoSuggestUsers({ loginSubstring, limit }: { loginSubstring: string; limit: number }): Promise<Model<User>[]> {
-        return UserModel.findAll({
+    async getAutoSuggestUsers({ loginSubstring, limit }: { loginSubstring: string; limit: number }): Promise<User[]> {
+        const usersFromDb = await UserModel.findAll({
             where: {
                 login: {
                     [Op.substring]: loginSubstring,
@@ -48,5 +52,10 @@ export class UserDbService implements IUserService {
             },
             limit,
         });
+        return usersFromDb.map((user) => this.transformDbUserToUser(user));
+    }
+
+    private transformDbUserToUser(dbUser: Model<User>): User {
+        return dbUser.get({ plain: true });
     }
 }
