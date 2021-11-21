@@ -1,7 +1,9 @@
 const { Sequelize } = require('sequelize');
 import { Model, ModelCtor } from 'sequelize/types';
 
+import { Group } from '../interfaces/IGroup';
 import { User } from '../interfaces/IUser';
+import { defineGroupModel } from '../models/group.model';
 import { defineUserModel } from '../models/user.model';
 
 const sequelize = new Sequelize({
@@ -15,7 +17,8 @@ const sequelize = new Sequelize({
 });
 
 export const UserModel: ModelCtor<Model<User>> = defineUserModel(sequelize);
+export const GroupModel: ModelCtor<Model<Group>> = defineGroupModel(sequelize);
 
 export const sequelizeLoader = async () => {
-    await UserModel.sync({ force: true });
+    await Promise.all([UserModel.sync({ force: true }), GroupModel.sync({ force: true })]);
 };

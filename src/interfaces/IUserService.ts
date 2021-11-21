@@ -1,4 +1,3 @@
-import { Model } from 'sequelize/types';
 import { User, UserBase } from './IUser';
 
 export interface IUserService {
