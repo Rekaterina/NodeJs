@@ -1,10 +1,19 @@
 import * as express from 'express';
-import { router as userRouter } from './users/user.router';
 
-const app = express();
+import { loaders } from './loaders';
+import { UserDbService } from './services/userDbService';
 
-app.use(express.json());
+const amountOfPredefinedUsers = 10;
+const userService = new UserDbService();
 
-app.use('/user', userRouter);
+const startServer = async () => {
+    const app = express();
 
-app.listen(process.env.PORT, () => console.log(`App is listening on port ${process.env.PORT}!`));
+    await loaders(app);
+
+    await userService.createPredefinedUsers(amountOfPredefinedUsers);
+
+    app.listen(process.env.PORT, () => console.log(`App is listening on port ${process.env.PORT}!`));
+};
+
+startServer();
