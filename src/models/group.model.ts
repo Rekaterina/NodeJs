@@ -1,8 +1,8 @@
-import { DataTypes, Model, ModelCtor, Sequelize } from 'sequelize';
+import { DataTypes, ModelCtor, Sequelize } from 'sequelize';
 
-import { Group, Permission } from '../interfaces/IGroup';
+import { DbGroup, Permission } from '../interfaces/IGroup';
 
-export function defineGroupModel(sequelize: Sequelize): ModelCtor<Model<Group>> {
+export function defineGroupModel(sequelize: Sequelize): ModelCtor<DbGroup> {
     return sequelize.define(
         'Group',
         {

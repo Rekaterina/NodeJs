@@ -1,8 +1,9 @@
 import * as express from 'express';
 import * as joi from 'joi';
-import { Permission } from '../../interfaces/IGroup';
 
+import { Permission } from '../../interfaces/IGroup';
 import { STATUS_CODE } from '../constants';
+import { getErrorResponse } from './helpers';
 
 const schema = joi.object({
     name: joi.string().required().alphanum().min(3).max(30).required(),
@@ -17,14 +18,6 @@ const schema = joi.object({
         )
         .required(),
 });
-
-function getErrorResponse(
-    errorDetails: joi.ValidationErrorItem[],
-): Pick<joi.ValidationErrorItem, 'message' | 'path'>[] {
-    return errorDetails.map(({ path, message }) => {
-        return { path, message };
-    });
-}
 
 export function validateGroup() {
     return (req: express.Request, res: express.Response, next: express.NextFunction) => {

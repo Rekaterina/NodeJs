@@ -5,17 +5,11 @@ import { STATUS_CODE } from '../constants';
 import { getErrorResponse } from './helpers';
 
 const schema = joi.object({
-    login: joi.string().required().alphanum().min(3).max(30).required(),
-
-    password: joi
-        .string()
-        .required()
-        .pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$/),
-
-    age: joi.number().required().integer().min(4).max(130),
+    groupId: joi.string().required(),
+    userIds: joi.array().items(joi.string().required()).required(),
 });
 
-export function validateUser() {
+export function validateUsersToGroup() {
     return (req: express.Request, res: express.Response, next: express.NextFunction) => {
         const { error } = schema.validate(req.body, {
             abortEarly: false,

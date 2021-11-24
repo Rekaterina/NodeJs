@@ -1,4 +1,4 @@
-import { Group, GroupBase } from './IGroup';
+import { DbGroup, Group, GroupBase } from './IGroup';
 
 export interface IGroupService {
     createPredefinedGroups(amount: number): void;
@@ -7,4 +7,5 @@ export interface IGroupService {
     createGroup(groupToCreate: GroupBase): Promise<Group>;
     deleteGroup(id: string): Promise<number>;
     updateGroup(id: string, groupFieldsToUpdate: GroupBase): Promise<number>;
+    getDbGroup(id: string): Promise<DbGroup | null>;
 }

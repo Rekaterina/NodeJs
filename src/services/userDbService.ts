@@ -1,7 +1,7 @@
-import { Model, Op } from 'sequelize';
+import { Op } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
 
-import { User, UserBase } from '../interfaces/IUser';
+import { DbUser, User, UserBase } from '../interfaces/IUser';
 import { IUserService } from '../interfaces/IUserService';
 import { UserModel } from '../loaders/sequelize';
 import { getRandomUsers } from './helpers';
@@ -14,6 +14,10 @@ export class UserDbService implements IUserService {
     async getUser(id: string): Promise<User | null> {
         const userFromDb = await UserModel.findOne({ where: { id } });
         return userFromDb != null ? this.transformDbUserToUser(userFromDb) : null;
+    }
+
+    getDbUsersByUserIds(userIds: string[]): Promise<DbUser[]> {
+        return UserModel.findAll({ where: { id: userIds } });
     }
 
     async createUser(userToCreate: UserBase): Promise<User> {
@@ -55,7 +59,7 @@ export class UserDbService implements IUserService {
         return usersFromDb.map((user) => this.transformDbUserToUser(user));
     }
 
-    private transformDbUserToUser(dbUser: Model<User>): User {
+    private transformDbUserToUser(dbUser: DbUser): User {
         return dbUser.get({ plain: true });
     }
 }

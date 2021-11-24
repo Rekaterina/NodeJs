@@ -1,7 +1,6 @@
-import { Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
 
-import { Group, GroupBase } from '../interfaces/IGroup';
+import { DbGroup, Group, GroupBase } from '../interfaces/IGroup';
 import { IGroupService } from '../interfaces/IGroupService';
 import { GroupModel } from '../loaders/sequelize';
 import { getRandomGroups } from './helpers';
@@ -14,6 +13,10 @@ export class GroupDbService implements IGroupService {
     async getGroup(id: string): Promise<Group | null> {
         const groupFromDb = await GroupModel.findOne({ where: { id } });
         return groupFromDb != null ? this.transformDbGroupToGroup(groupFromDb) : null;
+    }
+
+    async getDbGroup(id: string): Promise<DbGroup | null> {
+        return await GroupModel.findOne({ where: { id } });
     }
 
     async getAllGroups(): Promise<Group[]> {
@@ -48,7 +51,7 @@ export class GroupDbService implements IGroupService {
         return updatedGroupCount;
     }
 
-    private transformDbGroupToGroup(dbGroup: Model<Group>): Group {
+    private transformDbGroupToGroup(dbGroup: DbGroup): Group {
         return dbGroup.get({ plain: true });
     }
 }

@@ -1,3 +1,7 @@
+import { HasManyAddAssociationMixin, Model } from 'sequelize';
+
+import { User } from './IUser';
+
 export interface GroupBase {
     name: string;
     permissions: Permission[];
@@ -5,6 +9,10 @@ export interface GroupBase {
 
 export interface Group extends GroupBase {
     id: string;
+}
+
+export interface DbGroup extends Model<Group>, Group {
+    addUser: HasManyAddAssociationMixin<User, User['id']>;
 }
 
 export enum Permission {
