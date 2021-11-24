@@ -27,7 +27,7 @@ router.post('/addUsers', validateUsersToGroup(), async (req: express.Request, re
         if (result === TRANSACTION_STATUS.OK) {
             res.status(STATUS_CODE.CREATED).json(`Users with ids: ${userIds} were added to group with id: ${groupId}`);
         } else {
-            res.status(STATUS_CODE.CREATED).json(
+            res.status(STATUS_CODE.BAD_REQUEST).json(
                 `Users with ids: ${userIds} have not been added to group with id: ${groupId}`,
             );
         }
