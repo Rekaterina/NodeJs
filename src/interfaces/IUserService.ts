@@ -1,4 +1,4 @@
-import { DbUser, User, UserBase } from './IUser';
+import { User, UserBase } from './IUser';
 
 export interface IUserService {
     createPredefinedUsers?(amount: number): void;
@@ -7,5 +7,4 @@ export interface IUserService {
     deleteUser(id: string): Promise<number>;
     updateUser(id: string, userFieldsToUpdate: UserBase): Promise<number>;
     getAutoSuggestUsers({ loginSubstring, limit }: { loginSubstring: string; limit: number }): Promise<User[]>;
-    getDbUsersByUserIds?(userIds: string[]): Promise<DbUser[]>;
 }

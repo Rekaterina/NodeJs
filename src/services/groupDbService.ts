@@ -1,11 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import { DbGroup, Group, GroupBase } from '../interfaces/IGroup';
+import { IGroupDbService } from '../interfaces/IGroupDbService';
 import { IGroupService } from '../interfaces/IGroupService';
 import { GroupModel } from '../loaders/sequelize';
 import { getRandomGroups } from './helpers';
 
-export class GroupDbService implements IGroupService {
+export class GroupDbService implements IGroupService, IGroupDbService {
     createPredefinedGroups(amount: number) {
         GroupModel.bulkCreate(getRandomGroups(amount));
     }

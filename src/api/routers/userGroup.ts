@@ -1,6 +1,8 @@
 import * as express from 'express';
 
 import { TRANSACTION_STATUS } from '../../services/constants';
+import { GroupDbService } from '../../services/GroupDbService';
+import { UserDbService } from '../../services/userDbService';
 import { UserGroupDbService } from '../../services/userGroupDbService';
 import { STATUS_CODE } from '../constants';
 import { UserGroupController } from '../controllers/userGroup';
@@ -8,7 +10,9 @@ import { validateUsersToGroup } from '../middlewares/usersToGroupValidator';
 
 export const router = express.Router();
 
-const userGroupService = new UserGroupDbService();
+const userService = new UserDbService();
+const groupService = new GroupDbService();
+const userGroupService = new UserGroupDbService(groupService, userService);
 const userGroupController = new UserGroupController(userGroupService);
 
 router.get('/', async (_, res: express.Response) => {

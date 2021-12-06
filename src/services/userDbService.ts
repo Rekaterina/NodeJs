@@ -1,12 +1,13 @@
 import { Op } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
 
+import { IUserDbService } from '../interfaces/IUserDbService';
 import { DbUser, User, UserBase } from '../interfaces/IUser';
 import { IUserService } from '../interfaces/IUserService';
 import { UserModel } from '../loaders/sequelize';
 import { getRandomUsers } from './helpers';
 
-export class UserDbService implements IUserService {
+export class UserDbService implements IUserService, IUserDbService {
     createPredefinedUsers(amount: number) {
         UserModel.bulkCreate(getRandomUsers(amount));
     }

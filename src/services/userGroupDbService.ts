@@ -1,16 +1,18 @@
+import { IGroupDbService } from '../interfaces/IGroupDbService';
+import { IUserDbService } from '../interfaces/IUserDbService';
 import { DbUserGroup, UserGroup } from '../interfaces/IUserGroup';
 import { IUserGroupService } from '../interfaces/IUserGroupService';
 import { sequelize, UserGroupModel } from '../loaders/sequelize';
 import { TRANSACTION_STATUS } from './constants';
-import { GroupDbService } from './GroupDbService';
-import { UserDbService } from './userDbService';
-
-const userService = new UserDbService();
-const groupService = new GroupDbService();
 
 export class UserGroupDbService implements IUserGroupService {
-    public groupDbService = groupService;
-    public userDbService = userService;
+    public groupDbService: IGroupDbService;
+    public userDbService: IUserDbService;
+
+    constructor(groupService: IGroupDbService, userService: IUserDbService) {
+        this.groupDbService = groupService;
+        this.userDbService = userService;
+    }
 
     async addUsersToGroup(groupId: string, userIds: string[]): Promise<string> {
         const transaction = await sequelize.transaction();
