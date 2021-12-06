@@ -1,7 +1,8 @@
-import { DataTypes, Model, ModelCtor, Sequelize } from 'sequelize';
-import { User } from '../interfaces/IUser';
+import { DataTypes, ModelCtor, Sequelize } from 'sequelize';
 
-export function defineUserModel(sequelize: Sequelize): ModelCtor<Model<User>> {
+import { DbUser } from '../interfaces/IUser';
+
+export function defineUserModel(sequelize: Sequelize): ModelCtor<DbUser> {
     return sequelize.define(
         'User',
         {

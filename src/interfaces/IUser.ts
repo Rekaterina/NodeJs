@@ -1,3 +1,5 @@
+import { Model } from 'sequelize/types';
+
 export interface UserBase {
     login: string;
     password: string;
@@ -8,3 +10,5 @@ export interface UserBase {
 export interface User extends UserBase {
     id: string;
 }
+
+export interface DbUser extends Model<User>, User {}
