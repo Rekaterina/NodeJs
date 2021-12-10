@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as joi from 'joi';
 
 import { STATUS_CODE } from '../constants';
+import { ApiError } from './errorsHandler';
 import { getErrorResponse } from './helpers';
 
 const schema = joi.object({
@@ -11,14 +12,21 @@ const schema = joi.object({
 
 export function validateUsersToGroup() {
     return (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        const { error } = schema.validate(req.body, {
-            abortEarly: false,
-            allowUnknown: false,
-        });
+        try {
+            const { error } = schema.validate(req.body, {
+                abortEarly: false,
+                allowUnknown: false,
+            });
 
-        if (error?.isJoi) {
-            return res.status(STATUS_CODE.BAD_REQUEST).json(getErrorResponse(error.details));
+            if (error?.isJoi) {
+                throw new ApiError(
+                    STATUS_CODE.BAD_REQUEST,
+                    `Validation error: ${JSON.stringify(getErrorResponse(error.details))}`,
+                );
+            }
+            return next();
+        } catch (error) {
+            return next(error);
         }
-        return next();
     };
 }
