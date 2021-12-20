@@ -7,4 +7,5 @@ export interface IUserService {
     deleteUser(id: string): Promise<number>;
     updateUser(id: string, userFieldsToUpdate: UserBase): Promise<number>;
     getAutoSuggestUsers({ loginSubstring, limit }: { loginSubstring: string; limit: number }): Promise<User[]>;
+    getUserByLogin(login: string): Promise<User | null>;
 }

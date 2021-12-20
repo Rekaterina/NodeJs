@@ -11,6 +11,11 @@ export class UserInMemoryService implements IUserService {
         return Promise.resolve(user);
     }
 
+    getUserByLogin(login: string): Promise<User | null> {
+        const user = this.users.find((user) => user.login === login) ?? null;
+        return Promise.resolve(user);
+    }
+
     createUser(userToCreate: UserBase): Promise<User | null> {
         const indexOfUserWithSameLogin = this.users.findIndex((user) => user.login === userToCreate.login);
         if (indexOfUserWithSameLogin !== -1 && this.users[indexOfUserWithSameLogin].isDeleted === false) {

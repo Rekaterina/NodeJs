@@ -17,6 +17,11 @@ export class UserDbService implements IUserService, IUserDbService {
         return userFromDb != null ? this.transformDbUserToUser(userFromDb) : null;
     }
 
+    async getUserByLogin(login: string): Promise<User | null> {
+        const userFromDb = await UserModel.findOne({ where: { login } });
+        return userFromDb != null ? this.transformDbUserToUser(userFromDb) : null;
+    }
+
     getDbUsersByUserIds(userIds: string[]): Promise<DbUser[]> {
         return UserModel.findAll({ where: { id: userIds } });
     }
