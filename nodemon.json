@@ -7,6 +7,8 @@
         "DB_NAME": "postgres",
         "DB_USER": "postgres",
         "DB_PASS": "pg54321",
-        "DB_DIALECT": "postgres"
+        "DB_DIALECT": "postgres",
+        "JWT_SECRET": "jwt_secret",
+        "JWT_EXPIRES_IN": "60000"
     }
 }
