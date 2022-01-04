@@ -2,6 +2,7 @@ import * as jwt from 'jsonwebtoken';
 
 import { IUserService } from '../interfaces/IUserService';
 import { ILoginService } from '../interfaces/ILoginService';
+import { CONFIG } from '../config/config';
 
 export class LoginService implements ILoginService {
     public userService: IUserService;
@@ -11,12 +12,12 @@ export class LoginService implements ILoginService {
     }
 
     async login(username: string, password: string): Promise<string | null> {
-        const user = await this.userService.getUserByLogin(username);
+        const user = await this.userService.getUserByLogin!(username);
 
         if (!user || password !== user?.password) {
             return null;
         }
-        const token = jwt.sign({ sub: user.id }, process.env.JWT_SECRET!, { expiresIn: process.env.JWT_EXPIRES_IN });
+        const token = jwt.sign({ sub: user.id }, CONFIG.JWT_SECRET!, { expiresIn: CONFIG.JWT_EXPIRES_IN });
         return token;
     }
 }

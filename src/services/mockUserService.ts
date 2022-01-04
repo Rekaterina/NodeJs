@@ -1,19 +1,14 @@
-import { v4 as uuidv4 } from 'uuid';
-
 import { User, UserBase } from '../interfaces/IUser';
 import { IUserService } from '../interfaces/IUserService';
 
-export class UserInMemoryService implements IUserService {
-    private users: User[] = [];
+export const mockUserId = 'userId';
+
+export class MockUserService implements IUserService {
+    users: User[] = [];
 
     getUser(id: string): Promise<User | null> {
-        const user = this.users.find((user) => user.id === id) ?? null;
-        return Promise.resolve(user);
-    }
-
-    getUserByLogin(login: string): Promise<User | null> {
-        const user = this.users.find((user) => user.login === login) ?? null;
-        return Promise.resolve(user);
+        const result = this.users.find((user) => user.id === id) ?? null;
+        return Promise.resolve(result);
     }
 
     createUser(userToCreate: UserBase): Promise<User | null> {
@@ -29,7 +24,7 @@ export class UserInMemoryService implements IUserService {
             );
             return Promise.resolve(this.users[indexOfUserWithSameLogin]);
         }
-        const createdUser = { ...userToCreate, id: uuidv4(), isDeleted: false };
+        const createdUser = { ...userToCreate, id: mockUserId, isDeleted: false };
         this.users.push(createdUser);
         return Promise.resolve(createdUser);
     }

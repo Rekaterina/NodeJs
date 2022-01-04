@@ -1,16 +1,17 @@
 const { Sequelize } = require('sequelize');
 
+import { CONFIG } from '../config/config';
 import { defineGroupModel } from '../models/group.model';
 import { defineUserModel } from '../models/user.model';
 import { defineUserGroupModel } from '../models/userGroup.model';
 
 export const sequelize = new Sequelize({
-    database: process.env.DB_NAME,
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    dialect: process.env.DB_DIALECT,
+    database: CONFIG.DB_NAME,
+    username: CONFIG.DB_USER,
+    password: CONFIG.DB_PASS,
+    host: CONFIG.DB_HOST,
+    port: CONFIG.DB_PORT,
+    dialect: CONFIG.DB_DIALECT,
 });
 
 export const UserModel = defineUserModel(sequelize);
