@@ -1,5 +1,6 @@
 import * as express from 'express';
 
+import { CONFIG } from './config/config';
 import { loaders } from './loaders';
 import { logger } from './loggers/logger';
 import { GroupDbService } from './services/groupDbService';
@@ -20,7 +21,7 @@ const startServer = async () => {
         groupService.createPredefinedGroups(amountOfPredefinedGroups),
     ]);
 
-    app.listen(process.env.PORT, () => logger.info(`App is listening on port ${process.env.PORT}!`));
+    app.listen(CONFIG.PORT, () => logger.info(`App is listening on port ${CONFIG.PORT}!`));
 };
 
 startServer();
